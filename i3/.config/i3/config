@@ -19,9 +19,6 @@
 # config starts here: #
 #######################
 
-# include external files
-include $HOME/.config/i3/workspaces.conf
-
 # monitor variables
 set $fm HDMI-1
 set $sm HDMI-0
@@ -335,8 +332,8 @@ exec --no-startup-id picom --config ~/.config/picom.conf
 exec_always --no-startup-id killall polybar
 exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh
 
-#set primary monitor
-exec_always xrandr --output $fm --primary --right-of $sm
+#set primary monitor and workspaces layout
+exec --no-startup-id ~/.config/i3/xrandr_layout.sh
 
 #get auth work with polkit-gnome
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
