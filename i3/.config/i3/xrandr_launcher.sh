@@ -1,27 +1,23 @@
 #!/bin/bash
 
-connected_screens=$(xrandr --listmonitors | grep -c "Monitors")
+connected_outputs=$(xrandr | grep " connected" | cut -d" " -f1)
+num_outputs=$(echo "$connected_outputs" | wc -l)
 
-if [ "$connected_screens" -eq 1 ]; then
-    i3-msg "workspace 1 output HDMI-1"
-    i3-msg "workspace 2 output HDMI-1"
-    i3-msg "workspace 3 output HDMI-1"
-    i3-msg "workspace 4 output HDMI-1"
-    i3-msg "workspace 5 output HDMI-1"
-    i3-msg "workspace 6 output HDMI-1"
-    i3-msg "workspace 7 output HDMI-1"
-    i3-msg "workspace 8 output HDMI-1"
-    i3-msg "workspace 9 output HDMI-1"
+sleep 1
+
+if [ "$num_outputs" -eq 1 ]; then
+    for ws in {1..10}; do
+        i3-msg "workspace $ws output HDMI-1"
+    done
 else
-    i3-msg "workspace 1 output HDMI-1"
-    i3-msg "workspace 2 output HDMI-1"
-    i3-msg "workspace 3 output HDMI-1"
-    i3-msg "workspace 4 output HDMI-1"
-    i3-msg "workspace 5 output HDMI-1"
-    i3-msg "workspace 6 output HDMI-0"
-    i3-msg "workspace 7 output HDMI-0"
-    i3-msg "workspace 8 output HDMI-0"
-    i3-msg "workspace 9 output HDMI-0"
-    i3-msg "xrandr --output HDMI-1 --primary --right-of HDMI-0"
+    i3-msg "exec xrandr --output HDMI-1 --primary --right-of HDMI-0"
+    
+    for ws in {1..5}; do
+        i3-msg "workspace $ws output HDMI-1"
+    done
+
+    for ws in {6..10}; do
+        i3-msg "workspace $ws output HDMI-0"
+    done
 fi
 
